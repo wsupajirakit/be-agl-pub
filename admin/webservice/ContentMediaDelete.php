@@ -1,0 +1,36 @@
+<?
+  header("Content-type: application/json");
+  require_once __DIR__.'/../assets/php-function/pdo-database.php';
+  require_once __DIR__.'/../assets/php-function/auth.php';
+  require_once __DIR__.'/../assets/php-function/function.php';
+  require_once __DIR__.'/../assets/message_var/th.php';
+
+  $auth = new UserAuthentication();
+  $db = new DatabaseConnection();
+
+  $userAccessToken = $_COOKIE['access_token'];
+  $mdFile = $_POST['media_file'];
+  $mdType = $_POST['media_type'];
+
+  if($auth->VerfiyJWToken($userAccessToken)){
+      $postConfig = $siteConfig['post-config'];
+      if($mdType == 'image'){
+        $listFile = explode(",", $mdFile);
+        $uploadDir = __DIR__."/../../rsc/content/img/";
+        for($i=0; $i < count($listFile); $i++){ 
+         $targetFile = $uploadDir . $listFile[$i];
+         if(file_exists($targetFile)){
+          unlink($targetFile);
+         }
+        }
+        $response = array('status' => 1, 'msg' => $txt_var['request_success']);
+        
+      }else{
+        $response = array('status' => 2, 'msg' => $txt_var['request_error']);
+      }
+  }else{
+    // if refresh token invalid
+    $response = array('status' => 0, 'msg' => $txt_var['request_error_authen']);
+  }
+  echo json_encode($response);
+?>

@@ -1,0 +1,33 @@
+<?
+  header("Content-type: application/json");
+  require_once __DIR__.'/../assets/php-function/pdo-database.php';
+  require_once __DIR__.'/../assets/php-function/auth.php';
+  require_once __DIR__.'/../assets/php-function/function.php';
+  require_once __DIR__.'/../assets/message_var/th.php';
+
+  $auth = new UserAuthentication();
+  $db = new DatabaseConnection();
+
+  $userAccessToken = $_COOKIE['access_token'];
+  $pr_id = $_POST['id'];
+
+  if($auth->VerfiyJWToken($userAccessToken)){
+    $userAccessTokenData = $auth->DecodeJWToken($userAccessToken);
+    $pr = $db->dbRow("SELECT pr_image FROM public_relations WHERE pr_id = :id", array(':id' => $pr_id));
+    // delete row
+    $sql = "DELETE FROM public_relations WHERE pr_id = :id";
+    $res = $db->dbQuery($sql, array(':id' => $pr_id));
+    // delete image
+    if($res!== false && $pr !== null){
+      try{
+        $tmp = __DIR__."/../../rsc/sponsor/" . $pr['pr_image'];
+        unlink($tmp);
+      }catch(Exception $e){    }
+    }
+    $response = array('status' => 1, 'msg' => $txt_var['request_success']);
+  }else{
+    // if refresh token invalid
+    $response = array('status' => 0, 'msg' => $txt_var['request_error_authen']);
+  }
+  echo json_encode($response);
+?>

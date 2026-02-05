@@ -1,0 +1,71 @@
+{
+  "about": {
+    "app_name": "x x Radio",
+    "web_name": "example.com",
+    "organization_name": "ห้างหุ้นส่วนจำกัด x x เรดิโอ",
+    "tax_id": "0413556000136",
+    "app_title": "x x Radio x.5FM คลื่นนี้ ล็อกซะ",
+    "logo": "",
+    "logo_white": "",
+    "logo_no_text": "",
+    "logo_no_text_white": ""
+  },
+  "contact": {
+    "address1": "x/9 x",
+    "address2": "",
+    "subdistrict": "x",
+    "district": "x",
+    "province": "xx",
+    "zipcode": "x",
+    "full_address": "49/9 x  x x x x",
+    "email": ["x@yahoo.com"],
+    "phone": ["x-x-242"],
+    "website": "https://example.com"
+  },
+  "social": {
+    "facebook": {
+      "name": "x x Radio (Official)",
+      "url": "https://www.facebook.com/example/",
+      "key": "facebook"
+    },
+    "youtube": {
+      "name": "x",
+      "url": "https://www.youtube.com/x",
+      "key": "youtube"
+    },
+    "twitter": {
+      "name": "@x",
+      "url": "https://twitter.com/example",
+      "key": "twitter"
+    },
+    "instagram": {
+      "name": "example",
+      "url": "https://www.instagram.com/example/",
+      "key": "instagram"
+    }
+  },
+  "radio": {
+    "radio1": {
+      "straming_url": "http://x.x.cloud:x/;",
+      "frequency": "9x.5FM",
+      "wave": "9x.5xFM",
+      "sms_number": "x"
+    }
+  },
+  "acknowledgement": {
+    "privacy_policy": {
+      "android": "https://example.com/privacy-policy.php?platform=app",
+      "ios": "https://example.com/privacy-policy.php?platform=app",
+      "web": "https://example.com/privacy-policy.php"
+    },
+    "terms_of_use": {
+      "web": "https://example.com/terms-of-use.php"
+    }
+  },
+  "mobile_app": {
+    "download": {
+      "android": "https://play.google.com/store/apps/details?id=com.x",
+      "ios": ""
+    }
+  }
+}
