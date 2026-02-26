@@ -1,0 +1,78 @@
+<?
+  header("Content-type: application/json");
+  require_once __DIR__.'/../assets/php-function/pdo-database.php';
+  require_once __DIR__.'/../assets/php-function/auth.php';
+  require_once __DIR__.'/../assets/php-function/function.php';
+  require_once __DIR__.'/../assets/message_var/th.php';
+
+  $auth = new UserAuthentication();
+  $userAccessToken = $_COOKIE['access_token'];
+
+  $db = new DatabaseConnection();
+  $pr_type = $_GET['pr_type'];
+
+  if($auth->VerfiyJWToken($userAccessToken)){
+    // $conf = parse_ini_file(__DIR__."/../data/config/site.config.ini", true);
+    $prConfig = $siteConfig['pr-config'];
+    switch($pr_type){
+      case 1:
+        $result = array();
+        $sql = "SELECT pr_id, pr_image, pr_url, pr_title FROM public_relations WHERE pr_type = 1 ORDER BY pr_date DESC";
+        $data = $db->dbQuery($sql);
+        if($data!==null){
+          foreach ($data as $key => $value) {
+           $data[$key]['pr_image'] = $prConfig['cover_url'] . $data[$key]['pr_image'];
+           $data[$key]['pr_title'] = htmlspecialchars_decode($data[$key]['pr_title']);
+          }
+          $result = $data;  
+        }
+        $response = array('status' => 1, 'result' => $result, 'config' => $prConfig);
+        break;
+      case 2:
+        $result = array();
+        $sql = "SELECT pr_id, pr_image, pr_url, pr_title FROM public_relations WHERE pr_type = 2 ORDER BY pr_date DESC";
+        $data = $db->dbQuery($sql);
+        if($data!==null){
+          foreach ($data as $key => $value) {
+           $data[$key]['pr_image'] = $prConfig['sponsor_url'] . $data[$key]['pr_image'];
+           $data[$key]['pr_title'] = htmlspecialchars_decode($data[$key]['pr_title']);
+          }
+          $result = $data;  
+        }
+        $response = array('status' => 1, 'result' => $result, 'config' => $prConfig);
+        break;
+      case 3:
+        $result = array();
+        $sql = "SELECT pr_id, pr_message, pr_url FROM public_relations WHERE pr_type = 3 ORDER BY pr_date DESC";
+        $data = $db->dbQuery($sql);
+        if($data!==null){
+          foreach ($data as $key => $value) {
+           $data[$key]['pr_message'] = htmlspecialchars_decode($data[$key]['pr_message']);
+          }
+          $result = $data;  
+        }
+        $response = array('status' => 1, 'result' => $result);
+        break;
+      case 4:
+        $result = array();
+        $sql = "SELECT pr_id, pr_image, pr_url, pr_title FROM public_relations WHERE pr_type = 4 ORDER BY pr_date DESC";
+        $data = $db->dbQuery($sql);
+        if($data!==null){
+          foreach ($data as $key => $value) {
+           $data[$key]['pr_image'] = $prConfig['app_popup_url'] . $data[$key]['pr_image'];
+           $data[$key]['pr_title'] = htmlspecialchars_decode($data[$key]['pr_title']);
+          }
+          $result = $data;  
+        }
+        $response = array('status' => 1, 'result' => $result, 'config' => $prConfig);
+        break;
+      default:
+        $response = array('status' => 2,);
+        break;
+    }
+  }else{
+    // if refresh token invalid
+    $response = array('status' => 0, 'msg' => $txt_var['request_error_authen']);
+  }
+  echo json_encode($response);
+?>

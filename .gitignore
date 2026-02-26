@@ -1,0 +1,12 @@
+# Local secrets / machine-specific config
+admin/data/config/*.local.ini
+.env
+.env.*
+
+# Runtime tokens and transient data
+admin/data/user-token/session/*.txt
+admin/data/user-token/reset-password/*.json
+
+# macOS
+.DS_Store
+**/.DS_Store
